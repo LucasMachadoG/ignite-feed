@@ -1,24 +1,40 @@
 import Comment from "./Comment";
 
-export default function Post(){
+interface PostProps{
+  author: {
+    name: string;
+    role: string;
+  }
+  content: Array<{ type: string; content: string }>
+  publishedDate: Date;
+}
+
+export default function Post({ author, content, publishedDate }: PostProps){
+  const formatted = new Intl.DateTimeFormat('pt-BR',{
+    day: '2-digit',
+    month: 'long',
+    hour: '2-digit',
+    minute: '2-digit'
+  }).format(publishedDate)
+
   return(
     <div className="w-72 flex flex-col bg-gray800 mt-6 rounded-lg p-3">
       <div className="w-full flex justify-between">
         <img />
         <div className="w-full flex flex-col">
-          <span className="text-xs font-semibold text-gray100">Lucas Gaelzer Machado</span>
-          <span className="text-[10px] font-semibold text-gray400">Web Developer</span>
+          <span className="text-xs font-semibold text-gray100">{author.name}</span>
+          <span className="text-[10px] font-semibold text-gray400">{author.role}</span>
         </div>
-        <span className="text-[10px] font-semibold text-gray400">Publicado há 1h</span>
+        <span className="text-[10px] font-semibold text-gray400">{formatted}</span>
       </div>
-      <div className="mt-4 text-xs text-gray300 gap-3 flex flex-col">
-        <p>Fala galeraa 👋</p>
-
-        <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>
-
-        <p>👉 <a className="text-green500" href="#">jane.design/doctorcare</a></p>
-
-        <p><a className="text-green500" href="#">#novoprojeto #nlw #rocketseat</a></p>
+      <div className="mt-4  text-xs text-gray300 gap-3 flex flex-col">
+        {content.map((line) => {
+          if(line.type === 'paragraph'){
+            return <p>{line.content}</p>
+          } else if(line.type === 'link'){
+            return <p className="text-green500"><a href="">{line.content}</a></p>
+          }
+        })}
       </div>
 
       <div className="w-full h-[2px] bg-gray600 mt-4 mb-4"></div>
