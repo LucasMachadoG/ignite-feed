@@ -1,3 +1,5 @@
+import Comment from "./Comment";
+
 export default function Post(){
   return(
     <div className="w-72 flex flex-col bg-gray800 mt-6 rounded-lg p-3">
@@ -14,9 +16,9 @@ export default function Post(){
 
         <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>
 
-        <p>👉 <a className="text-green400" href="#">jane.design/doctorcare</a></p>
+        <p>👉 <a className="text-green500" href="#">jane.design/doctorcare</a></p>
 
-        <p><a className="text-green400" href="#">#novoprojeto #nlw #rocketseat</a></p>
+        <p><a className="text-green500" href="#">#novoprojeto #nlw #rocketseat</a></p>
       </div>
 
       <div className="w-full h-[2px] bg-gray600 mt-4 mb-4"></div>
@@ -28,6 +30,9 @@ export default function Post(){
 
         <button className="mt-4 w-full text-white bg-green500 rounded-lg py-2 text-xs" type="submit">Publicar</button>
       </form>
+      <div>
+        <Comment />
+      </div>
     </div>
   )
 }
