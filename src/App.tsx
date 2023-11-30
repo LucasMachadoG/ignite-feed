@@ -64,8 +64,9 @@ function App() {
       <Header />
       <div className="w-full flex flex-col items-center p-4">
         <Sidebar />
-        {posts.map(post => {
+        {posts.map((post, index) => {
           return <Post 
+            key={index}
             author={post.author} 
             content={post.content}
             publishedDate={post.publishedDate}

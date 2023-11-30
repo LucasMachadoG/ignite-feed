@@ -1,7 +1,11 @@
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FiThumbsUp } from "react-icons/fi";
 
-export default function Comment(){
+interface CommentProps{
+  content: string
+}
+
+export default function Comment({ content }: CommentProps){
   return(
     <div className="mt-6">
       <div className="items-center flex gap-2">
@@ -21,7 +25,7 @@ export default function Comment(){
             </button>
           </header>
 
-          <p className="text-gray300 text-xs mt-3">Muito bom Devon, parabéns!! 👏👏</p>
+          <p className="text-gray300 text-xs mt-3">{content}</p>
         </div>
         <div className="mt-3">
           <button className="flex text-xs gap-1" title="ThumbsButton">
