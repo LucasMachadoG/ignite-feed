@@ -11,7 +11,6 @@ interface PostProps{
 }
 
 export default function Post({ author, content, publishedDate }: PostProps){
-
   const [comments, setComments] = useState([
     'Post muito bacana, hein?',
   ])
@@ -31,6 +30,19 @@ export default function Post({ author, content, publishedDate }: PostProps){
     setComment('')
   }
 
+  const deleteComment = (commentToDelete: string) => {
+    const commentsDeleteComment = comments.filter((comment) => {
+      return comment !== commentToDelete
+    })
+
+    setComments(commentsDeleteComment)
+  }
+
+  const handleNewCommmentInvalid = (e: React.FormEvent<HTMLTextAreaElement>) => {
+    if (e.currentTarget instanceof HTMLTextAreaElement) {
+      e.currentTarget.setCustomValidity("Este campo é obrigatório");
+    }
+  };
 
   const formatted = new Intl.DateTimeFormat('pt-BR',{
     day: '2-digit',
@@ -38,6 +50,8 @@ export default function Post({ author, content, publishedDate }: PostProps){
     hour: '2-digit',
     minute: '2-digit'
   }).format(publishedDate)
+
+  const isNewCommentEmpty = comment.length === 0;
 
   return(
     <div className="w-72 flex flex-col bg-gray800 mt-6 rounded-lg p-3">
@@ -52,7 +66,7 @@ export default function Post({ author, content, publishedDate }: PostProps){
       <div className="mt-4  text-xs text-gray300 gap-3 flex flex-col">
         {content.map((line) => {
           if(line.type === 'paragraph'){
-            return <p>{line.content}</p>
+            return <p key={line.content}>{line.content}</p>
           } else if(line.type === 'link'){
             return <p className="text-green500"><a href="">{line.content}</a></p>
           }
@@ -68,13 +82,15 @@ export default function Post({ author, content, publishedDate }: PostProps){
           value={comment}
           onChange={handleChangeComment}
           className="bg-gray900 w-full h-20 border-0  rounded-lg resize-none text-xs p-2 focus:outline-none" placeholder="Deixe seu comentario"
+          onInvalid={handleNewCommmentInvalid}
+          required
         />
 
-        <button className="mt-4 w-full text-white bg-green500 rounded-lg py-2 text-xs" type="submit">Publicar</button>
+        <button className="mt-4 w-full text-white bg-green500 rounded-lg py-2 text-xs disabled:opacity-70 cursor-pointer disabled:cursor-not-allowed" type="submit" disabled={isNewCommentEmpty}>Publicar</button>
       </form>
       <div>
-          {comments.map((comment, index) => (
-            <Comment content={comment} key={index} />
+          {comments.map((comment) => (
+            <Comment content={comment} key={comment} deleteComment={deleteComment} />
           ))}
       </div>
     </div>

@@ -1,11 +1,25 @@
+import { useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FiThumbsUp } from "react-icons/fi";
 
 interface CommentProps{
   content: string
+  deleteComment: (comment: string) => void
 }
 
-export default function Comment({ content }: CommentProps){
+export default function Comment({ content, deleteComment }: CommentProps){
+  const [likeCount, setLikeCount] = useState(0)
+
+  const handleLikeCount = () => {
+    setLikeCount(likeCount + 1)
+  }
+
+  const handleDeleteComment = () => {
+    console.log("clicado")
+
+    deleteComment(content)
+  }
+
   return(
     <div className="mt-6">
       <div className="items-center flex gap-2">
@@ -20,7 +34,7 @@ export default function Comment({ content }: CommentProps){
               <span className="text-gray400 text-[10px]">Cerca de 1h</span>
             </div>
 
-            <button className="text-sm text-gray400" title="ButtonDelete">
+            <button onClick={handleDeleteComment} className="text-sm text-gray400" title="ButtonDelete">
               <FaRegTrashAlt />
             </button>
           </header>
@@ -28,8 +42,8 @@ export default function Comment({ content }: CommentProps){
           <p className="text-gray300 text-xs mt-3">{content}</p>
         </div>
         <div className="mt-3">
-          <button className="flex text-xs gap-1" title="ThumbsButton">
-            <FiThumbsUp className="text-sm" /> Aplaudir <span>20</span>
+          <button className="flex text-xs gap-1" title="ThumbsButton" onClick={handleLikeCount}>
+            <FiThumbsUp className="text-sm" /> Aplaudir <span>{likeCount}</span>
           </button>
         </div>
       </div>
